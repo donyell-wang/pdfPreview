@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>'pdf preview' example</title>
+  <style>
+    .img-preview{
+        margin: 10px;
+        width:100px;
+        height: auto;
+    }
+  </style>
+</head>
+<body>
+<h1>'pdf preview' example</h1>
+<div id="img_area"></div>
+
+<!-- for legacy browsers add compatibility.js -->
+<!--<script src="pdfjs/web/compatibility.js"></script>-->
+<script src="pdfjs/build/pdf.js"></script>
+<script src="pdfPreview.js"></script>
+
+<script id="script">
+
+  var _url = "test/test_file.pdf";
+
+  PDFPreview.openFile(_url, function (_preview) {
+      //do thing here
+      var _preview_num = _preview.getPageNum();
+
+      for(var i =1; i<=_preview_num; i++){
+          var _tag = createImgTag("img_"+ i);
+          _preview.getPageImgInBase64(i, function (str, idx) {
+              var _tag_s = document.getElementById("img_" + idx);
+              _tag_s.src = str;
+
+              //you can convert base64 code with help of sever to a real image url here
+              //   str = '"'+ str.slice(str.indexOf(',') + 1) +'"';
+              //   DA.uploadBase64Img(str, function (data) {});
+
+          })
+      }
+  });
+
+  function createImgTag(name) {
+      var _area = document.getElementById("img_area");
+      var _tag = document.createElement("img");
+      if(name){
+          _tag.id = name;
+      }
+      _tag.src="images/preview-loading.png";
+      _tag.className = "img-preview";
+      _area.appendChild(_tag);
+      return _tag;
+  }
+
+
+</script>
+</body>
+</html>
