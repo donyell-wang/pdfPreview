@@ -64,7 +64,7 @@ PDFPreview = function () {
             //2.draw pdf in canvas
             this.rendering = true;
             this.pdf_doc.getPage(_idx).then(function(page) {
-                var desiredWidth = 1000;
+                var desiredWidth = _obj.imgWidth;
                 var viewport = page.getViewport(1);
                 var scale = desiredWidth / viewport.width;
                 var scaledViewport = page.getViewport(scale);
