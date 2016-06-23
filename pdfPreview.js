@@ -17,9 +17,9 @@ PDFPreview = function () {
             if(obj.width !== undefined){
                 this.imgWidth = obj.width;
             }
-            if(obj.height !== undefined){
-                this.imgHeight = obj.height;
-            }
+            // if(obj.height !== undefined){
+            //     this.imgHeight = obj.height;
+            // }
         },
         getPageNum : function () {
             if(!this.pdf_doc){
