@@ -13,6 +13,9 @@
 </head>
 <body>
 <h1>'pdf preview' example</h1>
+<p>
+    click image to dowload
+</p>
 <div id="img_area"></div>
 
 <!-- for legacy browsers add compatibility.js -->
@@ -26,13 +29,20 @@
 
   PDFPreview.openFile(_url, function (_preview) {
       //do thing here
+      //_preview is a instace with some methods
       var _preview_num = _preview.getPageNum();
 
       for(var i =1; i<=_preview_num; i++){
           var _tag = createImgTag("img_"+ i);
           _preview.getPageImgInBase64(i, function (str, idx) {
+              //now you get image in base64 format in parameter str
+
+              //replace <img> with it
               var _tag_s = document.getElementById("img_" + idx);
               _tag_s.src = str;
+
+              //wrap a download link with <a> tag
+              wrapDownloadLink(_tag_s);
 
               //you can convert base64 code with help of sever to a real image url here
               //   str = '"'+ str.slice(str.indexOf(',') + 1) +'"';
@@ -54,6 +64,14 @@
       return _tag;
   }
 
+  function wrapDownloadLink(imgtag) {
+      var _a_tag = document.createElement("a");
+      _a_tag.href = imgtag.src;
+      _a_tag.download = imgtag.id + ".png";
+      _a_tag.appendChild(imgtag.cloneNode());
+
+      document.getElementById("img_area").replaceChild(_a_tag, imgtag);
+  }
 
 </script>
 </body>
